@@ -32,12 +32,43 @@ class Main:
         self.consola()
 
     def barra(self):
-        pass
+        menu = Menu(self.ventana)  # -----> Creando la barra de opciones
+
+        cargar = Menu(menu)  # -----> Creando las opciones para la barra
+        analizar = Menu(menu)
+        reportes = Menu(menu)
+
+        cargar.add_command(label='1. Cargar archivo', command=self.cargar_archivo)  # -----> Creando las acciones
+        analizar.add_command(label='1. Analizar archivo', command=self.analizar_archivo)
+        reportes.add_command(label='1. Reporte de errores', command=self.reportes_errores)
+        reportes.add_command(label='2. Reportes de tokens', command=self.reportes_tokens)
+        reportes.add_command(label='3. Grafica de árbol', command=self.grafica_arbol)
+
+        menu.add_cascade(label='Cargar', menu=cargar)  # -----> Agregando las opciones a la barra
+        menu.add_cascade(label='Analizar', menu=analizar)
+        menu.add_cascade(label='Reportes', menu=reportes)
+
+        self.ventana.config(menu=menu)  # -----> Agregando la barra de opciones al contenedor
 
     def editor(self):
         pass
 
     def consola(self):
+        pass
+
+    def cargar_archivo(self):
+        pass
+
+    def analizar_archivo(self):
+        pass
+
+    def reportes_errores(self):
+        pass
+
+    def reportes_tokens(self):
+        pass
+
+    def grafica_arbol(self):
         pass
 
 
