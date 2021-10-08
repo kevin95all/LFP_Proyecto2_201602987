@@ -1,5 +1,6 @@
 from tkinter import *
-#  from tkinter import filedialog
+from tkinter import filedialog
+from tkinter import messagebox
 from Automata import Automata
 
 
@@ -56,11 +57,31 @@ class Main:
     def consola(self):
         pass
 
-    def cargar_archivo(self):
-        pass
+    def cargar_archivo(self):  # -----> Método para la busqueda de archivos (lfp)
+        respaldo = self.ruta
+        self.ruta = ''
 
-    def analizar_archivo(self):
-        pass
+        self.ruta = filedialog.askopenfilename(
+            title='Buscar archivo',
+            filetypes=[
+                ('Archivos LFP', '*.lfp'),
+                ('Todos los archivos', '*.*')
+            ]
+        )
+        if self.ruta == '':
+            self.ruta = respaldo
+            messagebox.showinfo('Información', 'No se cargo ningun archivo')
+        else:
+            messagebox.showinfo('Información', 'Archivo cargado con exito')
+
+    def analizar_archivo(self):  # -----> Método para empezar con el analisis del archivo
+        if self.ruta == '':
+            messagebox.showinfo('Información', 'No hay archivos cargados')
+        else:
+            self.automata.leer_archivo(self.ruta)
+            self.automata.generar_reportes()
+            self.archivo_analizado = True
+            messagebox.showinfo('Información', 'Archivo analizado con exito')
 
     def reportes_errores(self):
         pass

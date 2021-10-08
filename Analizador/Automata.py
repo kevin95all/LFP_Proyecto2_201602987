@@ -5,3 +5,6 @@ class Automata:
 
     def leer_archivo(self, ruta):
         pass
+
+    def generar_reportes(self):
+        pass
