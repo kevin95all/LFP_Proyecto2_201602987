@@ -1,10 +1,14 @@
 class Automata:
 
     def __init__(self):
-        pass
+        self.contenido = ''
 
-    def leer_archivo(self, ruta):
-        pass
+    def leer_archivo(self, contenido):
+        self.contenido = contenido
+
+    def resultados(self):
+        resultado = self.contenido
+        return resultado
 
     def generar_reportes(self):
         pass

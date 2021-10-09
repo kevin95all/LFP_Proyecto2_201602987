@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 from tkinter import messagebox
+from tkinter import Text
 from Automata import Automata
 
 
@@ -9,8 +10,11 @@ class Main:
     def __init__(self):
         self.ventana = Tk()
         self.automata = Automata()
+        self.area_texto = Text(self.ventana)
+        self.area_consola = Text(self.ventana)
         self.archivo_analizado = False
         self.ruta = ''
+        self.contenido = ''
 
     def ventana_principal(self):
         self.ventana.title('4N4L!Z4DOR')
@@ -20,7 +24,7 @@ class Main:
         self.ventana.mainloop()
 
     def centrar_ventana(self):
-        w, h = 850, 600
+        w, h = 950, 600
         w_pantalla = self.ventana.winfo_screenwidth()
         h_pantalla = self.ventana.winfo_screenheight()
         x = ((w_pantalla / 2) - (w / 2))
@@ -52,14 +56,18 @@ class Main:
         self.ventana.config(menu=menu)  # -----> Agregando la barra de opciones al contenedor
 
     def editor(self):
-        pass
+        self.area_texto.configure(width=70, height=30)
+        self.area_texto.place(x=25, y=80)
 
     def consola(self):
-        pass
+        self.area_consola.configure(bg='black', fg='white', width=40, height=30)
+        self.area_consola.place(x=605, y=80)
 
     def cargar_archivo(self):  # -----> Método para la busqueda de archivos (lfp)
-        respaldo = self.ruta
+        respaldo_ruta = self.ruta
+        respaldo_contenido = self.area_texto.get(1.0, 'end-1c')
         self.ruta = ''
+        self.contenido = ''
 
         self.ruta = filedialog.askopenfilename(
             title='Buscar archivo',
@@ -69,17 +77,24 @@ class Main:
             ]
         )
         if self.ruta == '':
-            self.ruta = respaldo
+            self.ruta = respaldo_ruta
+            self.contenido = respaldo_contenido
             messagebox.showinfo('Información', 'No se cargo ningun archivo')
         else:
+            self.area_texto.delete(1.0, END)
+            with open(self.ruta, mode='r') as archivo:
+                self.contenido = archivo.read()
+            self.area_texto.insert(1.0, self.contenido)
             messagebox.showinfo('Información', 'Archivo cargado con exito')
 
     def analizar_archivo(self):  # -----> Método para empezar con el analisis del archivo
-        if self.ruta == '':
-            messagebox.showinfo('Información', 'No hay archivos cargados')
+        contenido = self.area_texto.get(1.0, 'end-1c')
+        if contenido == '':
+            messagebox.showinfo('Información', 'No hay código lfp para analizar')
         else:
-            self.automata.leer_archivo(self.ruta)
-            self.automata.generar_reportes()
+            self.automata.leer_archivo(contenido)
+            self.area_consola.delete(1.0, END)
+            self.area_consola.insert(1.0, self.automata.resultados())
             self.archivo_analizado = True
             messagebox.showinfo('Información', 'Archivo analizado con exito')
 
