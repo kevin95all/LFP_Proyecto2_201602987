@@ -1,0 +1,39 @@
+Claves = [
+	"clave_1", "clave_2", "clave_3", "clave_4"
+]
+
+Registros = [
+	{1, "producto_1", 20.00, 6}
+	{2, "producto_2", 5.75, 10}
+	{3, "producto_3", 100.99, 150}
+]
+
+# Este es un comentario
+
+'''
+Este es un comentario
+multi
+linea
+'''
+
+imprimir("Reporte");
+imprimir(" Numero 1");
+
+imprimirln("Reporte");
+imprimirln("Numero 2");
+
+# Este es otro comentario
+
+conteo();
+
+promedio("clave_4");
+
+contarsi("clave_3", 5.75);
+
+datos();
+
+max("clave_3");
+
+min("clave_3");
+
+exportarReporte("Titulo");

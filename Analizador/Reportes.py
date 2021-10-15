@@ -1,4 +1,5 @@
-class Reportes:
+class Reporte:
 
     def __init__(self):
-        pass
+        self.lista_de_tokens = []
+        self.lista_de_errores = []

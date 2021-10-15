@@ -32,11 +32,11 @@ class Main:
         self.ventana.geometry(f'{w}x{h}+{int(x)}+{int(y)}')
 
     def componentes(self):
-        self.barra()
+        self.botones()
         self.editor()
         self.consola()
 
-    def barra(self):
+    def botones(self):
         menu = Menu(self.ventana)  # -----> Creando la barra de opciones
 
         cargar = Menu(menu)  # -----> Creando las opciones para la barra
