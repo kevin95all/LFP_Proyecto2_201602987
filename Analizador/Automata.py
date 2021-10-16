@@ -19,7 +19,8 @@ class Automata:
         self.lista_parametros = []
         self.parametros = []
         self.lista_tokens = []
-        self.lista_errores = []
+        self.r_tokens = []
+        self.r_errores = []
 
     def letra(self, caracter):  # -----> Método para saber si el carácter es una letra
         L = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
@@ -46,7 +47,30 @@ class Automata:
             self.caracter = self.contenido[posicion]
 
             if self.estado == 0:  # -----------------------------------> Estado 0
-                pass
+                if self.letra(self.caracter):
+                    self.estado = 1
+                    self.comando = self.comando + self.caracter
+                    self.r_tokens.append(f'Cadena encontrada en la fila: {f} y columna: {c}')
+                    c = c + 1
+                elif self.caracter == '#':
+                    self.estado = 26
+                    c = c + 1
+                elif self.caracter == "'":
+                    self.estado = 29
+                    c = c + 1
+                elif self.caracter == '\n':
+                    self.estado = 0
+                    f = f + 1
+                    c = 1
+                else:
+                    self.estado = 0
+                    self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+            elif self.estado == 1:  # -----------------------------------> Estado 1
+                if self.letra(self.caracter):
+                    self.estado = 1
+                    self.comando = self.comando + self.caracter
+                    c = c + 1
 
             posicion = posicion + 1
 
