@@ -37,31 +37,28 @@ class Main:
         self.consola()
 
     def botones(self):
-        menu = Menu(self.ventana)  # -----> Creando la barra de opciones
+        cargar = Button(self.ventana, text='Cargar', width=10, height=2, command=self.cargar_archivo)
+        cargar.place(x=410, y=20)
 
-        cargar = Menu(menu)  # -----> Creando las opciones para la barra
-        analizar = Menu(menu)
-        reportes = Menu(menu)
+        analizar = Button(self.ventana, text='Analizar', width=10, height=2, command=self.analizar_archivo)
+        analizar.place(x=495, y=20)
 
-        cargar.add_command(label='1. Cargar archivo', command=self.cargar_archivo)  # -----> Creando las acciones
-        analizar.add_command(label='1. Analizar archivo', command=self.analizar_archivo)
-        reportes.add_command(label='1. Reporte de errores', command=self.reportes_errores)
-        reportes.add_command(label='2. Reportes de tokens', command=self.reportes_tokens)
-        reportes.add_command(label='3. Grafica de árbol', command=self.grafica_arbol)
+        token = Button(self.ventana, text='Reporte de tokens', width=15, height=2, command=self.reportes_tokens)
+        token.place(x=580, y=20)
 
-        menu.add_cascade(label='Cargar', menu=cargar)  # -----> Agregando las opciones a la barra
-        menu.add_cascade(label='Analizar', menu=analizar)
-        menu.add_cascade(label='Reportes', menu=reportes)
+        error = Button(self.ventana, text='Reporte de errores', width=15, height=2, command=self.reportes_errores)
+        error.place(x=700, y=20)
 
-        self.ventana.config(menu=menu)  # -----> Agregando la barra de opciones al contenedor
+        grafica = Button(self.ventana, text='Arbol de derivación', width=15, height=2, command=self.grafica)
+        grafica.place(x=820, y=20)
 
     def editor(self):
-        self.area_texto.configure(width=70, height=30)
+        self.area_texto.configure(width=55, height=30)
         self.area_texto.place(x=25, y=80)
 
     def consola(self):
-        self.area_consola.configure(bg='black', fg='white', width=40, height=30)
-        self.area_consola.place(x=605, y=80)
+        self.area_consola.configure(bg='black', fg='white', width=55, height=30)
+        self.area_consola.place(x=490, y=80)
 
     def cargar_archivo(self):  # -----> Método para la busqueda de archivos (lfp)
         respaldo_ruta = self.ruta
@@ -104,7 +101,7 @@ class Main:
     def reportes_tokens(self):
         pass
 
-    def grafica_arbol(self):
+    def grafica(self):
         pass
 
 
