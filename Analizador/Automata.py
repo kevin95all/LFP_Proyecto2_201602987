@@ -37,6 +37,14 @@ class Automata:
         else:
             return False
 
+    def reservada(self, id):
+        R = ['Claves', 'Registros', 'imprimir', 'imprimirln', 'conteo', 'promedio', 'contarsi',
+             'datos']
+        if id in R:
+            return True
+        else:
+            return False
+
     def leer_archivo(self, contenido):
         self.contenido = contenido
 
@@ -70,6 +78,16 @@ class Automata:
                 if self.letra(self.caracter):
                     self.estado = 1
                     self.comando = self.comando + self.caracter
+                    c = c + 1
+                elif self.caracter == '=':
+                    self.estado = 2
+                elif self.caracter == '(':
+                    pass
+                elif self.caracter == ' ':
+                    pass
+                else:
+                    self.estado = 1
+                    self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
                     c = c + 1
 
             posicion = posicion + 1
