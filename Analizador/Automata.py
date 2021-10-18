@@ -37,7 +37,7 @@ class Automata:
         else:
             return False
 
-    def reservada(self, id):
+    def reservada(self, id):  # -----> Método para saber si la cadena es una palabra reservada
         R = ['Claves', 'Registros', 'imprimir', 'imprimirln', 'conteo', 'promedio', 'contarsi',
              'datos', 'max', 'min', 'exportarReporte']
         if id in R:
@@ -113,10 +113,41 @@ class Automata:
                     c = c + 1
             elif self.estado == 2:  # -----------------------------------> Estado 2
                 if self.caracter == '[':
-                    pass
+                    self.estado = 3
+                    self.lista_tokens.append(self.caracter)
+                    self.r_tokens.append(f'Signo encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
                 elif self.caracter == ' ':
-                    pass
+                    self.estado = 2
+                    c = c + 1
                 else:
+                    self.estado = 2
+                    self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+            elif self.estado == 3:  # -----------------------------------> Estado 3
+                if self.caracter == '"':
+                    self.estado = 4
+                elif self.caracter == '{':
+                    self.estado = 7
+                    self.lista_tokens.append(self.caracter)
+                    self.r_tokens.append(f'Signo encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+                elif self.caracter == '\n':
+                    self.estado = 3
+                    f = f + 1
+                    c = 1
+                elif self.caracter == '\t':
+                    self.estado = 3
+                    c = c + 4
+                else:
+                    self.estado = 3
+                    self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+            elif self.estado == 4:  # -----------------------------------> Estado 4
+                if self.caracter != '"':
+                    self.estado = 5
+                    self.cadena = self.cadena + self.caracter
+                elif self.caracter == '"':
                     pass
 
             posicion = posicion + 1
