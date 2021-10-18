@@ -39,7 +39,7 @@ class Automata:
 
     def reservada(self, id):
         R = ['Claves', 'Registros', 'imprimir', 'imprimirln', 'conteo', 'promedio', 'contarsi',
-             'datos']
+             'datos', 'max', 'min', 'exportarReporte']
         if id in R:
             return True
         else:
@@ -80,15 +80,44 @@ class Automata:
                     self.comando = self.comando + self.caracter
                     c = c + 1
                 elif self.caracter == '=':
-                    self.estado = 2
+                    if self.reservada(self.comando):
+                        self.estado = 2
+                        self.lista_tokens.append(self.comando)
+                        self.lista_comandos.append(self.comando)
+                        self.lista_parametros.append('None')
+                        self.lista_tokens.append(self.caracter)
+                        self.r_tokens.append(f'Signo encontrado en la fila: {f} y columna: {c}')
+                        self.comando = ''
+                        c = c + 1
+                    else:
+                        self.estado = 36
+                        c = c + 1
                 elif self.caracter == '(':
-                    pass
+                    if self.reservada(self.comando):
+                        self.estado = 15
+                        self.lista_tokens.append(self.comando)
+                        self.lista_comandos.append(self.comando)
+                        self.lista_tokens.append(self.caracter)
+                        self.r_tokens.append(f'Signo encontrado en la fila: {f} y columna: {c}')
+                        self.comando = ''
+                        c = c + 1
+                    else:
+                        self.estado = 36
+                        c = c + 1
                 elif self.caracter == ' ':
-                    pass
+                    self.estado = 1
+                    c = c + 1
                 else:
                     self.estado = 1
                     self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
                     c = c + 1
+            elif self.estado == 2:  # -----------------------------------> Estado 2
+                if self.caracter == '[':
+                    pass
+                elif self.caracter == ' ':
+                    pass
+                else:
+                    pass
 
             posicion = posicion + 1
 
