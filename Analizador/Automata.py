@@ -91,6 +91,8 @@ class Automata:
                         c = c + 1
                     else:
                         self.estado = 36
+                        self.r_errores.append(f'Comando "{self.comando}" no valido en la fila: {f} y columna: {c}')
+                        self.comando = ''
                         c = c + 1
                 elif self.caracter == '(':
                     if self.reservada(self.comando):
@@ -103,6 +105,8 @@ class Automata:
                         c = c + 1
                     else:
                         self.estado = 36
+                        self.r_errores.append(f'Comando "{self.comando}" no valido en la fila: {f} y columna: {c}')
+                        self.comando = ''
                         c = c + 1
                 elif self.caracter == ' ':
                     self.estado = 1
@@ -127,10 +131,14 @@ class Automata:
             elif self.estado == 3:  # -----------------------------------> Estado 3
                 if self.caracter == '"':
                     self.estado = 4
+                    c = c + 1
                 elif self.caracter == '{':
                     self.estado = 7
                     self.lista_tokens.append(self.caracter)
                     self.r_tokens.append(f'Signo encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+                elif self.caracter == ' ':
+                    self.estado = 3
                     c = c + 1
                 elif self.caracter == '\n':
                     self.estado = 3
@@ -147,8 +155,43 @@ class Automata:
                 if self.caracter != '"':
                     self.estado = 5
                     self.cadena = self.cadena + self.caracter
+                    self.r_tokens.append(f'Cadena encontrada en la fila: {f} y columna: {c}')
+                    c = c + 1
                 elif self.caracter == '"':
-                    pass
+                    self.estado = 6
+                    self.lista_tokens.append('None')
+                    self.claves.append('None')
+                    c = c + 1
+            elif self.estado == 5:  # -----------------------------------> Estado 5
+                if self.caracter != '"':
+                    self.estado = 5
+                    self.cadena = self.cadena + self.caracter
+                    c = c + 1
+                elif self.caracter == '"':
+                    self.estado = 6
+                    self.lista_tokens.append(self.cadena)
+                    self.claves.append(self.cadena)
+                    self.cadena = ''
+                    c = c + 1
+            elif self.estado == 6:  # -----------------------------------> Estado 6
+                if self.caracter == ',':
+                    self.estado = 3
+                    c = c + 1
+                elif self.caracter == ']':
+                    self.estado = 0
+                    self.lista_tokens.append(self.caracter)
+                    self.r_tokens.append(f'Signo encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+                elif self.caracter == '\n':
+                    self.estado = 6
+                    f = f + 1
+                    c = 1
+                else:
+                    self.estado = 6
+                    self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+            elif self.estado == 7:  # -----------------------------------> Estado 7
+                pass
 
             posicion = posicion + 1
 
