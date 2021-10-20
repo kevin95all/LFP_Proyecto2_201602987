@@ -9,7 +9,7 @@ class Automata:
         self.caracter = ''
         self.comando = ''
         self.cadena = ''
-        self.numero = 0
+        self.numero = ''
         self.estado = 0
         self.lista_registros = []
         self.registro = []
@@ -151,26 +151,26 @@ class Automata:
                     self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
                     c = c + 1
             elif self.estado == 4:  # -----------------------------------> Estado 4
-                if self.caracter != '"':
-                    self.estado = 5
-                    self.cadena = self.cadena + self.caracter
-                    self.r_tokens.append(f'Cadena encontrada en la fila: {f} y columna: {c}')
-                    c = c + 1
-                elif self.caracter == '"':
+                if self.caracter == '"':
                     self.estado = 6
                     self.lista_tokens.append('None')
                     self.claves.append('None')
                     c = c + 1
-            elif self.estado == 5:  # -----------------------------------> Estado 5
-                if self.caracter != '"':
+                else:
                     self.estado = 5
                     self.cadena = self.cadena + self.caracter
+                    self.r_tokens.append(f'Cadena encontrada en la fila: {f} y columna: {c}')
                     c = c + 1
-                elif self.caracter == '"':
+            elif self.estado == 5:  # -----------------------------------> Estado 5
+                if self.caracter == '"':
                     self.estado = 6
                     self.lista_tokens.append(self.cadena)
                     self.claves.append(self.cadena)
                     self.cadena = ''
+                    c = c + 1
+                else:
+                    self.estado = 5
+                    self.cadena = self.cadena + self.caracter
                     c = c + 1
             elif self.estado == 6:  # -----------------------------------> Estado 6
                 if self.caracter == ',':
@@ -232,7 +232,7 @@ class Automata:
                     self.estado = 7
                     self.lista_tokens.append(self.numero)
                     self.registro.append(self.numero)
-                    self.numero = 0
+                    self.numero = ''
                     c = c + 1
                 elif self.caracter == '}':
                     self.registro.append(self.numero)
@@ -242,7 +242,7 @@ class Automata:
                         self.lista_registros.append(self.registro)
                         self.lista_tokens.append(self.caracter)
                         self.r_tokens.append(f'Signo encontrado en la fila: {f} y columna: {c}')
-                        self.numero = 0
+                        self.numero = ''
                         self.registro = []
                         c = c + 1
                     else:
@@ -251,7 +251,7 @@ class Automata:
                         self.lista_tokens.append(self.caracter)
                         self.r_tokens.append(f'Signo encontrado en la fila: {f} y columna: {c}')
                         self.r_errores.append(f'Registro "{self.registro}" no valido')
-                        self.numero = 0
+                        self.numero = ''
                         self.registro = []
                         c = c + 1
                 elif self.caracter == ')':
@@ -261,7 +261,7 @@ class Automata:
                     self.lista_parametros.append(self.parametros)
                     self.lista_tokens.append(self.caracter)
                     self.r_tokens.append(f'Signo encontrado en la fila: {f} y columna: {c}')
-                    self.numero = 0
+                    self.numero = ''
                     self.parametros = []
                     c = c + 1
                 else:
@@ -277,7 +277,7 @@ class Automata:
                     self.estado = 7
                     self.lista_tokens.append(self.numero)
                     self.registro.append(self.numero)
-                    self.numero = 0
+                    self.numero = ''
                     c = c + 1
                 elif self.caracter == '}':
                     self.registro.append(self.numero)
@@ -287,7 +287,7 @@ class Automata:
                         self.lista_registros.append(self.registro)
                         self.lista_tokens.append(self.caracter)
                         self.r_tokens.append(f'Signo encontrado en la fila: {f} y columna: {c}')
-                        self.numero = 0
+                        self.numero = ''
                         self.registro = []
                         c = c + 1
                     else:
@@ -296,7 +296,7 @@ class Automata:
                         self.lista_tokens.append(self.caracter)
                         self.r_tokens.append(f'Signo encontrado en la fila: {f} y columna: {c}')
                         self.r_errores.append(f'Registro "{self.registro}" no valido')
-                        self.numero = 0
+                        self.numero = ''
                         self.registro = []
                         c = c + 1
                 elif self.caracter == ')':
@@ -306,7 +306,7 @@ class Automata:
                     self.lista_parametros.append(self.parametros)
                     self.lista_tokens.append(self.caracter)
                     self.r_tokens.append(f'Signo encontrado en la fila: {f} y columna: {c}')
-                    self.numero = 0
+                    self.numero = ''
                     self.parametros = []
                     c = c + 1
                 else:
@@ -335,6 +335,53 @@ class Automata:
                     self.estado = 11
                     self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
                     c = c + 1
+            elif self.estado == 12:  # -----------------------------------> Estado 12
+                if self.caracter == '"':
+                    self.estado = 14
+                    self.lista_tokens.append('None')
+                    self.registro.append('None')
+                    c = c + 1
+                else:
+                    self.estado = 13
+                    self.cadena = self.cadena + self.caracter
+                    self.r_tokens.append(f'Cadena encontrada en la fila: {f} y columna: {c}')
+                    c = c + 1
+            elif self.estado == 13:  # -----------------------------------> Estado 13
+                if self.caracter == '"':
+                    self.estado = 14
+                    self.lista_tokens.append(self.cadena)
+                    self.registro.append(self.cadena)
+                    self.cadena = ''
+                    c = c + 1
+                else:
+                    self.estado = 13
+                    self.cadena = self.cadena + self.caracter
+                    c = c + 1
+            elif self.estado == 14:  # -----------------------------------> Estado 14
+                if self.caracter == ',':
+                    self.estado = 7
+                    c = c + 1
+                elif self.caracter == '}':
+                    if len(self.registro) == len(self.claves):
+                        self.estado = 11
+                        self.lista_registros.append(self.registro)
+                        self.lista_tokens.append(self.caracter)
+                        self.r_tokens.append(f'Signo encontrado en la fila: {f} y columna: {c}')
+                        self.registro = []
+                        c = c + 1
+                    else:
+                        self.estado = 11
+                        self.lista_tokens.append(self.caracter)
+                        self.r_tokens.append(f'Signo encontrado en la fila: {f} y columna: {c}')
+                        self.r_errores.append(f'Registro "{self.registro}" no valido')
+                        self.registro = []
+                        c = c + 1
+                else:
+                    self.estado = 14
+                    self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+            elif self.estado == 15:  # -----------------------------------> Estado 15
+                pass
 
             posicion = posicion + 1
 
