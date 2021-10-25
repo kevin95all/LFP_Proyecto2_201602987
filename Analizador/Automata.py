@@ -381,7 +381,106 @@ class Automata:
                     self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
                     c = c + 1
             elif self.estado == 15:  # -----------------------------------> Estado 15
-                pass
+                if self.caracter == '"':
+                    self.estado = 16
+                    c = c + 1
+                elif self.caracter == ')':
+                    self.estado = 21
+                    self.lista_tokens.append('None')
+                    self.lista_parametros.append('None')
+                    self.lista_tokens.append(self.caracter)
+                    self.r_tokens.append(f'Signo encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+                else:
+                    self.estado = 15
+                    self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+            elif self.estado == 16:  # -----------------------------------> Estado 16
+                if self.caracter == '"':
+                    self.estado = 18
+                    self.lista_tokens.append('None')
+                    self.lista_parametros.append('None')
+                    c = c + 1
+                else:
+                    self.estado = 17
+                    self.cadena = self.cadena + self.caracter
+                    self.r_tokens.append(f'Cadena encontrada en la fila: {f} y columna: {c}')
+                    c = c + 1
+            elif self.estado == 17:  # -----------------------------------> Estado 17
+                if self.caracter == '"':
+                    self.estado = 18
+                    c = c + 1
+                else:
+                    self.estado = 17
+                    self.cadena = self.cadena + self.caracter
+                    c = c + 1
+            elif self.estado == 18:  # -----------------------------------> Estado 18
+                if self.caracter == ',':
+                    self.estado = 19
+                    self.lista_tokens.append(self.cadena)
+                    self.parametros.append(self.cadena)
+                    self.cadena = ''
+                    c = c + 1
+                elif self.caracter == ')':
+                    self.estado = 22
+                    self.lista_tokens.append(self.cadena)
+                    self.lista_parametros.append(self.cadena)
+                    self.lista_tokens.append(self.caracter)
+                    self.r_tokens.append(f'Signo encontrado en la fila: {f} y columna: {c}')
+                    self.cadena = ''
+                    c = c + 1
+                else:
+                    self.estado = 18
+                    self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+            elif self.estado == 19:  # -----------------------------------> Estado 19
+                if self.caracter == '+' or self.caracter == '-':
+                    self.estado = 8
+                    self.numero = self.numero + self.caracter
+                    self.r_tokens.append(f'Número encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+                elif self.digito(self.caracter):
+                    self.estado = 9
+                    self.numero = self.numero + self.caracter
+                    self.r_tokens.append(f'Número encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+                elif self.caracter == ' ':
+                    self.estado = 19
+                    c = c + 1
+                else:
+                    self.estado = 19
+                    self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+            elif self.estado == 20:  # -----------------------------------> Estado 20
+                if self.caracter == ';':
+                    self.estado = 0
+                    self.lista_tokens.append(self.caracter)
+                    self.r_tokens.append(f'Signo encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+                else:
+                    self.estado = 20
+                    self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+            elif self.estado == 21:  # -----------------------------------> Estado 21
+                if self.caracter == ';':
+                    self.estado = 0
+                    self.lista_tokens.append(self.caracter)
+                    self.r_tokens.append(f'Signo encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+                else:
+                    self.estado = 21
+                    self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+            elif self.estado == 22:  # -----------------------------------> Estado 22
+                if self.caracter == ';':
+                    self.estado = 0
+                    self.lista_tokens.append(self.caracter)
+                    self.r_tokens.append(f'Signo encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+                else:
+                    self.estado = 22
+                    self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
 
             posicion = posicion + 1
 
