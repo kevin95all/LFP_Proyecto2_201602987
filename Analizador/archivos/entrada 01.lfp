@@ -6,18 +6,20 @@ Registros = [
 	{1, "producto_1", 20.00, 6}
 	{2, "producto_2", 5.75, 10}
 	{3, "producto_3", 100.99, 150}
+	{4, 1550, "Producto_4", 0.25, 12.85}
 ]
 
+#
 # Este es un comentario
 
 '''
-Este es un comentario
+	Este es un comentario
 multi
 linea
 '''
 
 imprimir("Reporte");
-imprimir(" Numero 1");
+imprimir("Numero 1");
 
 imprimirln("Reporte");
 imprimirln("Numero 2");
@@ -27,6 +29,15 @@ imprimirln("Numero 2");
 conteo();
 
 promedio("clave_4");
+
+' '
+'
+	Este es otro comentario
+multi
+linea
+'
+'
+	'
 
 contarsi("clave_3", 5.75);
 

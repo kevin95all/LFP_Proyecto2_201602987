@@ -11,9 +11,9 @@ class Automata:
         self.cadena = ''
         self.numero = ''
         self.estado = 0
+        self.claves = []
         self.lista_registros = []
         self.registro = []
-        self.claves = []
         self.lista_comandos = []
         self.lista_parametros = []
         self.parametros = []
@@ -60,10 +60,10 @@ class Automata:
                     self.r_tokens.append(f'Cadena encontrada en la fila: {f} y columna: {c}')
                     c = c + 1
                 elif self.caracter == '#':
-                    self.estado = 26
+                    self.estado = 23
                     c = c + 1
                 elif self.caracter == "'":
-                    self.estado = 29
+                    self.estado = 24
                     c = c + 1
                 elif self.caracter == '\n':
                     self.estado = 0
@@ -89,7 +89,7 @@ class Automata:
                         self.comando = ''
                         c = c + 1
                     else:
-                        self.estado = 33
+                        self.estado = 30
                         self.r_errores.append(f'Comando "{self.comando}" no valido en la fila: {f} y columna: {c}')
                         self.comando = ''
                         c = c + 1
@@ -103,7 +103,7 @@ class Automata:
                         self.comando = ''
                         c = c + 1
                     else:
-                        self.estado = 33
+                        self.estado = 30
                         self.r_errores.append(f'Comando "{self.comando}" no valido en la fila: {f} y columna: {c}')
                         self.comando = ''
                         c = c + 1
@@ -481,11 +481,128 @@ class Automata:
                     self.estado = 22
                     self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
                     c = c + 1
+            elif self.estado == 23:  # -----------------------------------> Estado 23
+                if self.caracter == '\n':
+                    self.estado = 0
+                    f = f + 1
+                    c = 1
+                elif self.caracter == '\t':
+                    self.estado = 23
+                    c = c + 4
+                else:
+                    self.estado = 23
+                    c = c + 1
+            elif self.estado == 24:  # -----------------------------------> Estado 24
+                if self.caracter == "'":
+                    self.estado = 25
+                    c = c + 1
+                elif self.caracter == ' ':
+                    self.estado = 24
+                    c = c + 1
+                elif self.caracter == '\n':
+                    self.estado = 24
+                    f = f + 1
+                    c = 1
+                elif self.caracter == '\t':
+                    self.estado = 24
+                    c = c + 4
+                else:
+                    self.estado = 24
+                    self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+            elif self.estado == 25:  # -----------------------------------> Estado 25
+                if self.caracter == "'":
+                    self.estado = 26
+                    c = c + 1
+                elif self.caracter == ' ':
+                    self.estado = 25
+                    c = c + 1
+                elif self.caracter == '\n':
+                    self.estado = 25
+                    f = f + 1
+                    c = 1
+                elif self.caracter == '\t':
+                    self.estado = 25
+                    c = c + 4
+                else:
+                    self.estado = 25
+                    self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+            elif self.estado == 26:  # -----------------------------------> Estado 26
+                if self.caracter == "'":
+                    self.estado = 27
+                    c = c + 1
+                elif self.caracter == ' ':
+                    self.estado = 26
+                    c = c + 1
+                elif self.caracter == '\n':
+                    self.estado = 26
+                    f = f + 1
+                    c = 1
+                elif self.caracter == '\t':
+                    self.estado = 26
+                    c = c + 4
+                else:
+                    self.estado = 26
+                    c = c + 1
+            elif self.estado == 27:  # -----------------------------------> Estado 27
+                if self.caracter == "'":
+                    self.estado = 28
+                    c = c + 1
+                elif self.caracter == ' ':
+                    self.estado = 27
+                    c = c + 1
+                elif self.caracter == '\n':
+                    self.estado = 27
+                    f = f + 1
+                    c = 1
+                elif self.caracter == '\t':
+                    self.estado = 27
+                    c = c + 4
+                else:
+                    self.estado = 27
+                    self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+            elif self.estado == 28:  # -----------------------------------> Estado 28
+                if self.caracter == "'":
+                    self.estado = 29
+                    c = c + 1
+                elif self.caracter == ' ':
+                    self.estado = 28
+                    c = c + 1
+                elif self.caracter == '\n':
+                    self.estado = 28
+                    f = f + 1
+                    c = 1
+                elif self.caracter == '\t':
+                    self.estado = 28
+                    c = c + 4
+                else:
+                    self.estado = 28
+                    self.r_errores.append(f'Error lexico "{self.caracter}" encontrado en la fila: {f} y columna: {c}')
+                    c = c + 1
+            elif self.estado == 29:  # -----------------------------------> Estado 29
+                if self.caracter == '\n':
+                    self.estado = 0
+                    f = f + 1
+                    c = 1
+                else:
+                    self.estado = 29
+                    c = c + 1
+            elif self.estado == 30:  # -----------------------------------> Estado 30
+                if self.caracter == ']':
+                    self.estado = 0
+                elif self.caracter == '\n':
+                    self.estado = 30
+                    f = f + 1
+                    c = 1
+                else:
+                    self.estado = 30
 
             posicion = posicion + 1
 
     def resultados(self):
-        resultado = self.contenido
+        resultado = self.lista_tokens
         return resultado
 
     def generar_reportes(self):
