@@ -1,10 +1,12 @@
 from Reportes import Reporte
+from Operaciones import Operaciones
 
 
 class Automata:
 
     def __init__(self):
         self.reporte = Reporte()
+        self.operaciones = Operaciones()
         self.contenido = ''
         self.caracter = ''
         self.comando = ''
@@ -605,5 +607,11 @@ class Automata:
         resultado = self.lista_tokens
         return resultado
 
-    def generar_reportes(self):
+    def generar_reporte_tokens(self):
+        self.reporte.reporte_tokens(self.r_tokens)
+
+    def generar_reporte_errores(self):
+        self.reporte.reporte_errores(self.r_errores)
+
+    def analizar_datos(self):
         pass

@@ -3,6 +3,9 @@ from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import Text
 from Automata import Automata
+from Operaciones import Operaciones
+import webbrowser
+import os
 
 
 class Main:
@@ -10,6 +13,7 @@ class Main:
     def __init__(self):
         self.ventana = Tk()
         self.automata = Automata()
+        self.operaciones = Operaciones()
         self.area_texto = Text(self.ventana)
         self.area_consola = Text(self.ventana)
         self.archivo_analizado = False
@@ -43,10 +47,10 @@ class Main:
         analizar = Button(self.ventana, text='Analizar', width=10, height=2, command=self.analizar_archivo)
         analizar.place(x=495, y=20)
 
-        token = Button(self.ventana, text='Reporte de tokens', width=15, height=2, command=self.reportes_tokens)
+        token = Button(self.ventana, text='Reporte de tokens', width=15, height=2, command=self.reporte_tokens)
         token.place(x=580, y=20)
 
-        error = Button(self.ventana, text='Reporte de errores', width=15, height=2, command=self.reportes_errores)
+        error = Button(self.ventana, text='Reporte de errores', width=15, height=2, command=self.reporte_errores)
         error.place(x=700, y=20)
 
         grafica = Button(self.ventana, text='Arbol de derivación', width=15, height=2, command=self.grafica)
@@ -79,6 +83,8 @@ class Main:
             messagebox.showinfo('Información', 'No se cargo ningun archivo')
         else:
             self.area_texto.delete(1.0, END)
+            self.area_consola.delete(1.0, END)
+            self.archivo_analizado = False
             with open(self.ruta, mode='r') as archivo:
                 self.contenido = archivo.read()
             self.area_texto.insert(1.0, self.contenido)
@@ -90,19 +96,37 @@ class Main:
             messagebox.showinfo('Información', 'No hay código lfp para analizar')
         else:
             self.automata.leer_archivo(contenido)
+            self.automata.generar_reporte_tokens()
+            self.automata.generar_reporte_errores()
+            self.automata.analizar_datos()
             self.area_consola.delete(1.0, END)
-            self.area_consola.insert(1.0, self.automata.resultados())
+            self.area_consola.insert(1.0, self.operaciones.resultados())
             self.archivo_analizado = True
             messagebox.showinfo('Información', 'Archivo analizado con exito')
 
-    def reportes_errores(self):
-        pass
+    def reporte_errores(self):
+        if self.archivo_analizado:
+            chromedir = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s"
+            errores = 'file:///' + os.getcwd() + '/' + 'archivos_creados/errores.html'
 
-    def reportes_tokens(self):
-        pass
+            webbrowser.get(chromedir).open_new_tab(errores)
+        else:
+            messagebox.showinfo('Información', 'No se ha analizado el archivo')
+
+    def reporte_tokens(self):
+        if self.archivo_analizado:
+            chromedir = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s"
+            tokens = 'file:///' + os.getcwd() + '/' + 'archivos_creados/tokens.html'
+
+            webbrowser.get(chromedir).open_new_tab(tokens)
+        else:
+            messagebox.showinfo('Información', 'No se ha analizado el archivo')
 
     def grafica(self):
-        pass
+        if self.archivo_analizado:
+            messagebox.showinfo('Información', 'Pendiente!!!!!')
+        else:
+            messagebox.showinfo('Información', 'No se ha analizado el archivo')
 
 
 app = Main()
