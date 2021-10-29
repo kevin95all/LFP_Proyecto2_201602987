@@ -55,8 +55,26 @@ class Operaciones:
                 else:
                     mensaje = mensaje + '\n\n'
                     mensaje = mensaje + f'>>> Clave no declarada'
-            elif self.lista_de_comandos[posicion] == 'contarsi':  # ---------------------------> contar
+            elif self.lista_de_comandos[posicion] == 'contarsi':  # ---------------------------> contarsi
                 cadena = ''
+                parametro = self.lista_de_parametros[posicion]
+                clave = parametro[0]
+                valor = float(parametro[1])
+                if clave in self.lista_de_claves:
+                    p = self.lista_de_claves.index(clave)
+                    contador = 0
+                    n = 0
+
+                    while n < len(self.lista_de_registros):
+                        if float(self.lista_de_registros[n][p]) == valor:
+                            contador = contador + 1
+                        n = n + 1
+
+                    mensaje = mensaje + '\n\n'
+                    mensaje = mensaje + f'>>> {contador}'
+                else:
+                    mensaje = mensaje + '\n\n'
+                    mensaje = mensaje + f'>>> Clave no declarada'
             elif self.lista_de_comandos[posicion] == 'max':  # --------------------------------> max
                 cadena = ''
                 clave = self.lista_de_parametros[posicion]
@@ -93,8 +111,44 @@ class Operaciones:
                 else:
                     mensaje = mensaje + '\n\n'
                     mensaje = mensaje + f'>>> Clave no declarada'
+            elif self.lista_de_comandos[posicion] == 'sumar':  # ------------------------------> sumar
+                cadena = ''
+                clave = self.lista_de_parametros[posicion]
+                if clave in self.lista_de_claves:
+                    p = self.lista_de_claves.index(clave)
+                    suma = 0
+                    n = 0
+
+                    while n < len(self.lista_de_registros):
+                        suma = suma + float(self.lista_de_registros[n][p])
+                        n = n + 1
+
+                    mensaje = mensaje + '\n\n'
+                    mensaje = mensaje + f'>>> {suma}'
+                else:
+                    mensaje = mensaje + '\n\n'
+                    mensaje = mensaje + f'>>> Clave no declarada'
             elif self.lista_de_comandos[posicion] == 'datos':  # ------------------------------> datos
                 cadena = ''
+                n = 0
+                f = 0
+
+                while n < len(self.lista_de_claves):
+                    if cadena == '':
+                        mensaje = mensaje + '\n\n'
+                        cadena = cadena + f'{self.lista_de_claves[n]}'
+                        mensaje = mensaje + f'>>> {cadena}'
+                    else:
+                        cadena = ''
+                        cadena = cadena + f'  |  {self.lista_de_claves[n]}'
+                        mensaje = mensaje + f'{cadena}'
+                    n = n + 1
+
+                while f < len(self.lista_de_registros):
+                    cadena = self.lista_de_registros[f]
+                    mensaje = mensaje + '\n'
+                    mensaje = mensaje + f'>>> {cadena}'
+                    f = f + 1
             elif self.lista_de_comandos[posicion] == 'exportarReporte':  # --------------------> Exportar
                 cadena = ''
 

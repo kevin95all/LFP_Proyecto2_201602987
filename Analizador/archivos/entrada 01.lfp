@@ -6,7 +6,8 @@ Registros = [
 	{1, "producto_1", 20.00, 6}
 	{2, "producto_2", 5.75, 10}
 	{3, "producto_3", 100.99, 150}
-	{4, 1550, "Producto_4", 0.25, 12.85}
+	{4, "producto_3", 5.75, 150}
+	{5, 1550, "Producto_4", 0.25, 12.85}
 ]
 
 #
@@ -26,6 +27,8 @@ imprimirln("Numero 2");
 
 # Este es otro comentario
 
+sumar("clave_4");
+
 conteo();
 
 promedio("clave_4");
@@ -39,7 +42,7 @@ linea
 '
 	'
 
-contarsi("clave_3", 5.75);
+contarsi("clave_4", 5.75);
 
 datos();
 

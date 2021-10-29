@@ -40,7 +40,7 @@ class Automata:
 
     def reservada(self, id):  # -----> Método para saber si la cadena es una palabra reservada
         R = ['Claves', 'Registros', 'imprimir', 'imprimirln', 'conteo', 'promedio', 'contarsi',
-             'datos', 'max', 'min', 'exportarReporte']
+             'datos', 'max', 'min', 'sumar', 'exportarReporte']
         if id in R:
             return True
         else:

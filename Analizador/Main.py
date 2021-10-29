@@ -64,9 +64,7 @@ class Main:
 
     def cargar_archivo(self):  # -----> Método para la busqueda de archivos (lfp)
         respaldo_ruta = self.ruta
-        respaldo_contenido = self.area_texto.get(1.0, 'end-1c')
         self.ruta = ''
-        self.contenido = ''
 
         self.ruta = filedialog.askopenfilename(
             title='Buscar archivo',
@@ -77,11 +75,11 @@ class Main:
         )
         if self.ruta == '':
             self.ruta = respaldo_ruta
-            self.contenido = respaldo_contenido
             messagebox.showinfo('Información', 'No se cargo ningun archivo')
         else:
             self.area_texto.delete(1.0, END)
             self.area_consola.delete(1.0, END)
+            self.contenido = ''
             self.archivo_analizado = False
             with open(self.ruta, mode='r') as archivo:
                 self.contenido = archivo.read()
