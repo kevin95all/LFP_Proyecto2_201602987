@@ -1,5 +1,5 @@
 Claves = [
-	"@@@@@_1", "clave_2", "12.3_3", "#$%%_'"
+	"@@@@@_1", "clave_2", "clave_4", "#$%%_'"
 ]
 
 Registros = [
@@ -43,8 +43,8 @@ contarsi("clave_3", 5.75);
 
 datos();
 
-max("clave_3");
+max("clave_4");
 
-min("clave_3");
+min("clave_4");
 
 exportarReporte("Titulo");

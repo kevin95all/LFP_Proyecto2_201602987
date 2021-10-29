@@ -603,10 +603,6 @@ class Automata:
 
             posicion = posicion + 1
 
-    def resultados(self):
-        resultado = self.lista_tokens
-        return resultado
-
     def generar_reporte_tokens(self):
         self.reporte.reporte_tokens(self.r_tokens)
 
@@ -614,4 +610,8 @@ class Automata:
         self.reporte.reporte_errores(self.r_errores)
 
     def analizar_datos(self):
-        pass
+        mensaje = self.operaciones.cargar_datos(
+            self.claves, self.lista_registros,
+            self.lista_comandos, self.lista_parametros)
+
+        return mensaje

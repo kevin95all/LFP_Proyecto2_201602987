@@ -3,7 +3,6 @@ from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import Text
 from Automata import Automata
-from Operaciones import Operaciones
 import webbrowser
 import os
 
@@ -13,7 +12,6 @@ class Main:
     def __init__(self):
         self.ventana = Tk()
         self.automata = Automata()
-        self.operaciones = Operaciones()
         self.area_texto = Text(self.ventana)
         self.area_consola = Text(self.ventana)
         self.archivo_analizado = False
@@ -98,9 +96,9 @@ class Main:
             self.automata.leer_archivo(contenido)
             self.automata.generar_reporte_tokens()
             self.automata.generar_reporte_errores()
-            self.automata.analizar_datos()
+            cadena = self.automata.analizar_datos()
             self.area_consola.delete(1.0, END)
-            self.area_consola.insert(1.0, self.operaciones.resultados())
+            self.area_consola.insert(1.0, cadena)
             self.archivo_analizado = True
             messagebox.showinfo('Información', 'Archivo analizado con exito')
 
